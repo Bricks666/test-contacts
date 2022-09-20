@@ -36,6 +36,8 @@ export const LoginForm: React.FC<LoginFormProps> = React.memo(
 			},
 			[login.value, password.value]
 		);
+
+		const disableButton = !password.value || !login.value;
 		return (
 			<StyledForm onSubmit={onSubmit} className={className}>
 				<TextField label='Логин' variant='outlined' {...login} />
@@ -45,7 +47,7 @@ export const LoginForm: React.FC<LoginFormProps> = React.memo(
 					type='password'
 					{...password}
 				/>
-				<StyledButton variant='outlined' type='submit'>
+				<StyledButton variant='outlined' type='submit' disabled={disableButton}>
 					Войти
 				</StyledButton>
 			</StyledForm>

@@ -22,6 +22,7 @@ export const authSlice = createSlice({
 				state.login = payload.login;
 				state.isAuth = true;
 				state.isAuthorizing = false;
+				state.error = null;
 			})
 			.addCase(authThunk.rejected, (state, { error }) => {
 				state.error = error.message || 'Что то пошло не так';
@@ -54,4 +55,4 @@ export const getAuthState = (state: AppState) => state.auth;
 export const getIsAuthorizing = (state: AppState) =>
 	getAuthState(state).isAuthorizing;
 
-  export const getAuthError = (state:AppState) => getAuthState(state).error
+export const getAuthError = (state: AppState) => getAuthState(state).error;
