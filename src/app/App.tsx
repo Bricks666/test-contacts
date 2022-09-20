@@ -1,12 +1,11 @@
 import { AppRoutes } from '@/components/AppRoutes';
-
-import styles from './App.module.css';
+import { StyledWrapper } from './styles';
 
 const App = () => {
 	return (
-		<div className={styles.container}>
+		<StyledWrapper>
 			<AppRoutes />
-		</div>
+		</StyledWrapper>
 	);
 };
 

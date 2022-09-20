@@ -8,12 +8,18 @@ interface Route {
 }
 
 const LoginPage = lazy(() => import('../pages/Login'));
+const ContactsPage = lazy(() => import('../pages/Contacts'));
 
 export const routes: Route[] = [
 	{
 		path: '/login',
 		Component: LoginPage,
 		isOnlyAuth: false,
+	},
+	{
+		path: '/contacts',
+		Component: ContactsPage,
+		isOnlyAuth: true,
 	},
 	{
 		path: '*',

@@ -25,5 +25,13 @@
 			"login": "UserLogin5",
 			"password": "UserPassword5"
 		}
+	],
+	"contacts": [
+		{
+      "id": 1,
+			"userId": 1,
+			"type": "vk",
+			"value": "vk.com"
+		}
 	]
 }
