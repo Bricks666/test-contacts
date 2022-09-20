@@ -1,4 +1,4 @@
-import { LoginForm } from '@/components/LoginForm';
+import { Login } from '@/components/Login';
 import { Container } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
@@ -11,6 +11,6 @@ export const StyledContainer = styled(Container)`
 	padding: 10px 0;
 `;
 
-export const StyledLoginForm = styled(LoginForm)`
+export const StyledLogin = styled(Login)`
 	width: 320px;
 `;

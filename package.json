@@ -24,7 +24,9 @@
 		"typescript": "^4.8.3"
 	},
 	"scripts": {
-		"start": "react-app-rewired start",
+		"start": "npm run start:serve & npm run start:dev",
+		"start:dev": "react-app-rewired start",
+		"start:serve": "node server.js",
 		"build": "react-app-rewired build",
 		"gen:component": "generate-react component",
 		"gen:page": "generate-react component --type=page",

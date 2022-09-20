@@ -1,6 +1,6 @@
 import { Typography } from '@mui/material';
 import * as React from 'react';
-import { StyledContainer, StyledLoginForm } from './styles';
+import { StyledContainer, StyledLogin } from './styles';
 
 const LoginPage: React.FC = () => {
 	return (
@@ -8,7 +8,7 @@ const LoginPage: React.FC = () => {
 			<Typography variant='h2' align='center' component='h1'>
 				Вход
 			</Typography>
-			<StyledLoginForm />
+			<StyledLogin />
 		</StyledContainer>
 	);
 };

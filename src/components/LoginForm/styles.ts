@@ -3,7 +3,7 @@ import { styled } from '@mui/material/styles';
 
 export const StyledForm = styled('form')`
 	display: grid;
-	row-gap: 20px;
+	row-gap: 10px;
 `;
 
 export const StyledButton = styled(Button)`
