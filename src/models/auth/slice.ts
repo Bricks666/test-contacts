@@ -35,8 +35,7 @@ export const authSlice = createSlice({
 	},
 });
 
-export const { reset, setAuthorizing, setError, setUserInfo } =
-	authSlice.actions;
+export const { reset, setAuthorizing, setError, setUserInfo } = authSlice.actions;
 
 export const loginThunk = createAsyncThunk<
 	SafetyUser | undefined,

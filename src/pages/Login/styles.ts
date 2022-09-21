@@ -12,5 +12,5 @@ export const StyledContainer = styled(Container)`
 `;
 
 export const StyledLogin = styled(Login)`
-	width: 320px;
+	width: 300px;
 `;
