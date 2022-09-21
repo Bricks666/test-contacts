@@ -1,11 +1,13 @@
 import * as React from 'react';
-import { TextField } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
+import { Control, SubmitHandler, useForm } from 'react-hook-form';
+import { joiResolver } from '@hookform/resolvers/joi';
+import { Button } from '@mui/material';
 import { CommonProps } from '@/interfaces/common';
-import { StyledButton, StyledForm } from './styles';
-import useField from '@/hooks/useField';
-import { authThunk } from '@/models/auth';
+import { StyledField, StyledForm } from './styles';
+import { loginThunk, LoginThunkParams } from '@/models/auth';
 import useTypedDispatch from '@/hooks/useTypedDispatch';
+import { loginScheme } from './scheme';
+import { Checkbox } from '../Checkbox';
 
 export interface LoginFormProps extends CommonProps {}
 
@@ -14,41 +16,48 @@ export const LoginForm: React.FC<LoginFormProps> = React.memo(
 		const { className } = props;
 
 		const dispatch = useTypedDispatch();
-		const navigate = useNavigate();
 
-		const { reset: resetLogin, ...login } = useField('');
-		const { reset: resetPassword, ...password } = useField('');
-
-		const onSubmit = React.useCallback<React.FormEventHandler>(
-			async (evt) => {
-				evt.preventDefault();
-				const { payload } = await dispatch(
-					authThunk({ login: login.value, password: password.value })
-				);
-
-				if (payload) {
-					navigate('/contacts');
-				} else {
-					resetLogin();
-					resetPassword();
-				}
+		const { reset, control, formState, handleSubmit } = useForm<LoginThunkParams>({
+			defaultValues: {
+				login: '',
+				password: '',
+				rememberMe: false,
 			},
-			[login.value, password.value]
+			resolver: joiResolver(loginScheme),
+		});
+
+		const onSubmit = React.useCallback<SubmitHandler<LoginThunkParams>>(
+			async (data) => {
+				await dispatch(loginThunk(data));
+				reset();
+			},
+			[reset]
 		);
 
-		const disableButton = !password.value || !login.value;
+		const { isDirty, isSubmitting } = formState;
+		const disableButton = !isDirty || isSubmitting;
+
 		return (
-			<StyledForm onSubmit={onSubmit} className={className}>
-				<TextField label='Логин' variant='outlined' {...login} />
-				<TextField
-					label='Пароль'
-					variant='outlined'
-					type='password'
-					{...password}
+			<StyledForm onSubmit={handleSubmit(onSubmit)} className={className}>
+				<StyledField
+					name='login'
+					control={control as unknown as Control}
+					label='Логин'
 				/>
-				<StyledButton variant='outlined' type='submit' disabled={disableButton}>
+				<StyledField
+					name='password'
+					control={control as unknown as Control}
+					type='password'
+					label='Пароль'
+				/>
+				<Checkbox
+					name='rememberMe'
+					control={control as unknown as Control}
+					label='Запомнить меня'
+				/>
+				<Button variant='outlined' type='submit' disabled={disableButton}>
 					Войти
-				</StyledButton>
+				</Button>
 			</StyledForm>
 		);
 	}

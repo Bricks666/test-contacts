@@ -1,12 +1,14 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { authApi } from '@/api/auth';
 import { AppState } from '..';
-import { AuthState, AuthThunkParams, SafetyUser } from './types';
+import { AuthState, LoginThunkParams, SafetyUser } from './types';
+import { deleteItem, getItem, setItem } from '@/packages/storage';
+import { REMEMBER_USER_KEY } from './keys';
 
 const initialState: AuthState = {
 	id: -1,
 	isAuth: false,
-	isAuthorizing: false,
+	isAuthorizing: true,
 	login: '',
 	error: null,
 };
@@ -14,39 +16,70 @@ const initialState: AuthState = {
 export const authSlice = createSlice({
 	name: 'auth',
 	initialState,
-	reducers: {},
-	extraReducers: (builder) => {
-		builder
-			.addCase(authThunk.fulfilled, (state, { payload }) => {
-				state.id = payload.id;
-				state.login = payload.login;
-				state.isAuth = true;
-				state.isAuthorizing = false;
-				state.error = null;
-			})
-			.addCase(authThunk.rejected, (state, { error }) => {
-				state.error = error.message || 'Что то пошло не так';
-				state.isAuthorizing = false;
-				state.isAuth = false;
-			})
-			.addCase(authThunk.pending, (state) => {
-				state.isAuthorizing = true;
-			});
+	reducers: {
+		setUserInfo(state, { payload }: PayloadAction<SafetyUser>) {
+			Object.assign(state, payload);
+			state.isAuth = true;
+		},
+		setAuthorizing(state, { payload }: PayloadAction<boolean>) {
+			state.isAuthorizing = payload;
+		},
+		setError(state, { payload }: PayloadAction<string>) {
+			state.error = payload;
+			state.isAuth = false;
+		},
+		reset(state) {
+			Object.assign(state, initialState);
+			state.isAuthorizing = false;
+		},
 	},
 });
 
-export const authThunk = createAsyncThunk<SafetyUser, AuthThunkParams>(
+export const { reset, setAuthorizing, setError, setUserInfo } = authSlice.actions;
+
+export const loginThunk = createAsyncThunk<
+	SafetyUser | undefined,
+	LoginThunkParams
+>('user/login', async ({ login, password, rememberMe }, { dispatch }) => {
+	dispatch(setAuthorizing(true));
+	const user = await authApi(login, password);
+	if (user) {
+		const safetyUser: SafetyUser = {
+			id: user.id,
+			login: user.login,
+		};
+		if (rememberMe) {
+			setItem(REMEMBER_USER_KEY, safetyUser);
+		}
+		dispatch(setAuthorizing(false));
+		dispatch(setUserInfo(safetyUser));
+
+		return safetyUser;
+	}
+
+	dispatch(setError('Пользователя с такими данными не существует'));
+});
+
+export const authThunk = createAsyncThunk<SafetyUser | undefined, never>(
 	'user/auth',
-	async ({ login, password }) => {
-		const user = await authApi(login, password);
+	(_, { dispatch }) => {
+		dispatch(setAuthorizing(true));
+		const user: SafetyUser | null = getItem(REMEMBER_USER_KEY);
 		if (user) {
-			return {
-				id: user.id,
-				login: user.login,
-			};
+			dispatch(setUserInfo(user));
 		}
 
-		throw new Error('Пользователя с такими данными не существует');
+		dispatch(setAuthorizing(false));
+
+		return user || undefined;
+	}
+);
+
+export const logoutThunk = createAsyncThunk<void, never>(
+	'user/auth',
+	(_, { dispatch }) => {
+		deleteItem(REMEMBER_USER_KEY);
+		dispatch(reset());
 	}
 );
 

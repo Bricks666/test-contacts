@@ -10,8 +10,6 @@ import { Select } from '../Select';
 import { Field } from '../Field';
 import { SearchContact } from './types';
 import { SEARCH_CONTACT_NAMES, SEARCH_CONTACT_TYPES } from './data';
-import { INPUT_CONTACT_TYPE } from '@/consts/contacts';
-import { ContactType } from '@/models/contacts';
 import { searchContactScheme } from './scheme';
 import prepareLink from '@/utils/prepareLink';
 import { GET_PARAMS } from '@/consts/getParams';
@@ -21,7 +19,7 @@ export interface ContactSearchProps extends CommonProps {}
 export const ContactSearch: React.FC<ContactSearchProps> = React.memo(
 	function ContactSearch(props) {
 		const { className } = props;
-		const { control, watch, handleSubmit } = useForm<SearchContact>({
+		const { control, handleSubmit } = useForm<SearchContact>({
 			defaultValues: {
 				type: '',
 				value: '',
@@ -30,8 +28,6 @@ export const ContactSearch: React.FC<ContactSearchProps> = React.memo(
 		});
 		const navigate = useNavigate();
 		const location = useLocation();
-
-		const currentType = watch('type') || '';
 
 		const onSubmit = React.useCallback<SubmitHandler<SearchContact>>(
 			({ type, value }) => {
@@ -56,12 +52,7 @@ export const ContactSearch: React.FC<ContactSearchProps> = React.memo(
 						</MenuItem>
 					))}
 				</Select>
-				<Field
-					name='value'
-					control={control}
-					label='Контакт'
-					type={INPUT_CONTACT_TYPE[currentType as ContactType] || 'text'}
-				/>
+				<Field name='value' control={control} label='Контакт' />
 				<Button type='submit' variant='outlined' endIcon={<SearchIcon />}>
 					Искать
 				</Button>
