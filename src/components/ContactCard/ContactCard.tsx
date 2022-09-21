@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import {
 	IconButton,
 	ListItem,
+	ListItemIcon,
 	ListItemSecondaryAction,
 	ListItemText,
 	ListSubheader,
@@ -10,10 +11,15 @@ import {
 	MenuItem,
 } from '@mui/material';
 import ListIcon from '@mui/icons-material/List';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
 import { CommonProps } from '@/interfaces/common';
 import { Contact, useDeleteContactMutation } from '@/models/contacts';
 import { CONTACT_NAMES } from '@/consts/contacts';
 import useToggle from '@/hooks/useToogle';
+import { MenuOption } from './types';
+import { GET_PARAMS } from '@/consts/getParams';
+import { POPUPS } from '@/consts/popups';
 
 export interface ContactCardProps extends CommonProps, Contact {}
 
@@ -25,23 +31,46 @@ export const ContactCard: React.FC<ContactCardProps> = React.memo(
 		const [trigger] = useDeleteContactMutation();
 		const [openMenu, toggleOpenMenu] = useToggle(false);
 
-		const onDelete = React.useCallback(async () => {
-			await trigger(id);
-		}, [id, trigger]);
+		const contactActions = React.useMemo<MenuOption[]>(
+			() => [
+				{
+					label: 'Изменить',
+					href: `?${GET_PARAMS.popups}=${POPUPS.editContact}&${GET_PARAMS.contactId}=${id}`,
+					Icon: EditIcon,
+				},
+				{
+					label: 'Удалить',
+					onClick: async () => trigger(id),
+					Icon: DeleteIcon,
+				},
+			],
+			[id, trigger]
+		);
 
 		return (
 			<ListItem className={className}>
-				<ListSubheader component='span'>{value}</ListSubheader>
-				<ListItemText>{CONTACT_NAMES[type]}</ListItemText>
+				<ListSubheader component='span'>{CONTACT_NAMES[type]}</ListSubheader>
+				<ListItemText>{value}</ListItemText>
 				<ListItemSecondaryAction>
 					<IconButton onClick={toggleOpenMenu} ref={ref}>
 						<ListIcon />
 					</IconButton>
 					<Menu open={openMenu} onClose={toggleOpenMenu} anchorEl={ref.current}>
-						<MenuItem onClick={onDelete}>Delete</MenuItem>
-						<MenuItem component={Link} to='?popups'>
-							Edit
-						</MenuItem>
+						{contactActions.map(({ label, Icon, href, onClick }) => (
+							<MenuItem
+								component={href ? Link : 'li'}
+								to={href}
+								onClick={onClick}
+								key={label}
+							>
+								{Icon && (
+									<ListItemIcon>
+										<Icon />
+									</ListItemIcon>
+								)}
+								{label}
+							</MenuItem>
+						))}
 					</Menu>
 				</ListItemSecondaryAction>
 			</ListItem>

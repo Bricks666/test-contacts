@@ -1,6 +1,6 @@
 import { API_BASE_URL } from '@/consts/api';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { Contact, CreateContact, UpdateContact } from './types';
+import { Contact, CreateContact, EditContact } from './types';
 
 const ContactsTag = 'Contacts';
 
@@ -19,6 +19,12 @@ export const contactsApi = createApi({
 			}),
 			providesTags: [ContactsTag],
 		}),
+		getContact: builder.query<Contact, number>({
+			query: (contactId) => ({
+				url: `/${contactId}`,
+			}),
+			providesTags: [ContactsTag],
+		}),
 		deleteContact: builder.mutation<unknown, number>({
 			query: (contactId) => ({
 				url: `/${contactId}`,
@@ -26,7 +32,7 @@ export const contactsApi = createApi({
 			}),
 			invalidatesTags: [ContactsTag],
 		}),
-		updateContact: builder.mutation<unknown, UpdateContact>({
+		editContact: builder.mutation<unknown, EditContact>({
 			query: ({ id, ...data }) => ({
 				url: `/${id}`,
 				method: 'PUT',
@@ -49,7 +55,8 @@ export const contactsApi = createApi({
 
 export const {
 	useGetContactsQuery,
+	useGetContactQuery,
 	useDeleteContactMutation,
 	useCreateContactMutation,
-	useUpdateContactMutation,
+	useEditContactMutation,
 } = contactsApi;

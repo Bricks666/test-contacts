@@ -12,12 +12,12 @@ const ContactsPage = lazy(() => import('../pages/Contacts'));
 
 export const routes: Route[] = [
 	{
-		path: '/login',
+		path: 'login',
 		Component: LoginPage,
 		isOnlyAuth: false,
 	},
 	{
-		path: '/contacts',
+		path: 'contacts',
 		Component: ContactsPage,
 		isOnlyAuth: true,
 	},

@@ -14,7 +14,7 @@ export const ContactsList: React.FC<ContactsListProps> = React.memo(
 		const { className } = props;
 		const authId = useTypedSelector(getAuthId);
 		const { data = [] } = useGetContactsQuery(authId);
-		console.log(data);
+
 		return (
 			<StylesWrapper className={className}>
 				<List>

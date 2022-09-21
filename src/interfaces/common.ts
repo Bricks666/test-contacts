@@ -3,3 +3,7 @@ export interface CommonProps {
 }
 
 export type AnyFunction = (...args: unknown[]) => unknown;
+
+export interface CommonPopupProps {
+	readonly isOpen: boolean;
+}

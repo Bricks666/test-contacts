@@ -16,8 +16,8 @@ export const LoginForm: React.FC<LoginFormProps> = React.memo(
 		const dispatch = useTypedDispatch();
 		const navigate = useNavigate();
 
-		const { reset: resetLogin, ...login } = useField();
-		const { reset: resetPassword, ...password } = useField();
+		const { reset: resetLogin, ...login } = useField('');
+		const { reset: resetPassword, ...password } = useField('');
 
 		const onSubmit = React.useCallback<React.FormEventHandler>(
 			async (evt) => {
@@ -25,7 +25,6 @@ export const LoginForm: React.FC<LoginFormProps> = React.memo(
 				const { payload } = await dispatch(
 					authThunk({ login: login.value, password: password.value })
 				);
-				console.log(payload);
 
 				if (payload) {
 					navigate('/contacts');

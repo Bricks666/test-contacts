@@ -1,7 +1,18 @@
-import { MouseEventHandler } from 'react';
+import { MouseEventHandler, ComponentType } from 'react';
 
-export interface MenuOption {
+interface MenuOptionBase {
 	readonly label: string;
-	readonly href?: string;
-	readonly onClick?: MouseEventHandler;
+	readonly Icon?: ComponentType;
 }
+
+interface MenuOptionButton extends MenuOptionBase {
+	readonly onClick: MouseEventHandler;
+	readonly href?: never;
+}
+
+interface MenuOptionLink extends MenuOptionBase {
+	readonly onClick?: never;
+	readonly href: string;
+}
+
+export type MenuOption = MenuOptionButton | MenuOptionLink;

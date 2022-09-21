@@ -9,6 +9,7 @@ export interface Contact {
 
 export interface CreateContact extends Omit<Contact, 'id'> {}
 
-export interface UpdateContact
-	extends Omit<Partial<Contact>, 'id'>,
-		Pick<Contact, 'id'> {}
+export interface EditableContact
+	extends Omit<Partial<Contact>, 'id' | 'userId'> {}
+
+export interface EditContact extends EditableContact, Pick<Contact, 'id'> {}

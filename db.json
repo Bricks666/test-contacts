@@ -28,10 +28,9 @@
   ],
   "contacts": [
     {
-      "id": 2,
-      "userId": 1,
-      "type": "vk",
-      "value": "vk.com"
+      "type": "site",
+      "value": "http://localhost:3001",
+      "id": 2
     }
   ]
 }
