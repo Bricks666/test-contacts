@@ -1,6 +1,10 @@
 import { styled } from '@mui/material/styles';
-import { EditContactForm } from '../EditContactForm';
+import { MainPopup } from '../MainPopup';
 
-export const StyledForm = styled(EditContactForm)`
+export const StyledPopup = styled(MainPopup)`
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
 	width: 270px;
 `;

@@ -20,7 +20,7 @@ const usePopups = (): UsePopupsResult => {
 	useEffect(() => {
 		timeoutIdRef.current = window.setTimeout(() => {
 			setMountedPopups(parsePopups(rawPopups));
-		}, 300);
+		}, 150);
 
 		return () => {
 			const id = timeoutIdRef.current;

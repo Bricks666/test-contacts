@@ -12,9 +12,9 @@ export const MainPopup: React.FC<React.PropsWithChildren<MainPopupProps>> = (
 ) => {
 	const { className, isOpen, onClose, title, children } = props;
 	return (
-		<Dialog className={className} open={isOpen} onClose={onClose}>
-			<DialogTitle>{title}</DialogTitle>
-			<DialogContent>{children}</DialogContent>
+		<Dialog open={isOpen} onClose={onClose}>
+			<DialogTitle align='center'>{title}</DialogTitle>
+			<DialogContent className={className}>{children}</DialogContent>
 		</Dialog>
 	);
 };

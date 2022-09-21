@@ -1,7 +1,8 @@
 import * as React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { Button, MenuItem } from '@mui/material';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import { Button, MenuItem } from '@mui/material';
+import SearchIcon from '@mui/icons-material/Search';
 import { joiResolver } from '@hookform/resolvers/joi';
 import { CommonProps } from '@/interfaces/common';
 import { StyledForm } from './styles';
@@ -61,7 +62,7 @@ export const ContactSearch: React.FC<ContactSearchProps> = React.memo(
 					label='Контакт'
 					type={INPUT_CONTACT_TYPE[currentType as ContactType] || 'text'}
 				/>
-				<Button type='submit' variant='outlined'>
+				<Button type='submit' variant='outlined' endIcon={<SearchIcon />}>
 					Искать
 				</Button>
 			</StyledForm>
