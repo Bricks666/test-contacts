@@ -56,3 +56,7 @@ export const getIsAuthorizing = (state: AppState) =>
 	getAuthState(state).isAuthorizing;
 
 export const getAuthError = (state: AppState) => getAuthState(state).error;
+
+export const getAuthId = (state: AppState) => getAuthState(state).id;
+
+export const getIsAuth = (state: AppState) => getAuthState(state).isAuth;

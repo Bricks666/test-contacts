@@ -1,37 +1,37 @@
 {
-	"users": [
-		{
-			"id": 1,
-			"login": "UserLogin1",
-			"password": "UserPassword1"
-		},
-		{
-			"id": 2,
-			"login": "UserLogin2",
-			"password": "UserPassword2"
-		},
-		{
-			"id": 3,
-			"login": "UserLogin3",
-			"password": "UserPassword3"
-		},
-		{
-			"id": 4,
-			"login": "UserLogin4",
-			"password": "UserPassword4"
-		},
-		{
-			"id": 5,
-			"login": "UserLogin5",
-			"password": "UserPassword5"
-		}
-	],
-	"contacts": [
-		{
+  "users": [
+    {
       "id": 1,
-			"userId": 1,
-			"type": "vk",
-			"value": "vk.com"
-		}
-	]
+      "login": "UserLogin1",
+      "password": "UserPassword1"
+    },
+    {
+      "id": 2,
+      "login": "UserLogin2",
+      "password": "UserPassword2"
+    },
+    {
+      "id": 3,
+      "login": "UserLogin3",
+      "password": "UserPassword3"
+    },
+    {
+      "id": 4,
+      "login": "UserLogin4",
+      "password": "UserPassword4"
+    },
+    {
+      "id": 5,
+      "login": "UserLogin5",
+      "password": "UserPassword5"
+    }
+  ],
+  "contacts": [
+    {
+      "id": 2,
+      "userId": 1,
+      "type": "vk",
+      "value": "vk.com"
+    }
+  ]
 }
