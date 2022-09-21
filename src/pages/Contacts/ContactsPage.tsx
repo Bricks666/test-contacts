@@ -1,8 +1,9 @@
+import * as React from 'react';
+import { Typography } from '@mui/material';
+import { ContactSearch } from '@/components/ContactSearch';
 import { ContactsList } from '@/components/ContactsList';
 import { CreateContactForm } from '@/components/CreateContactForm';
 import { MainLayout } from '@/layouts/MainLayout';
-import { Typography } from '@mui/material';
-import * as React from 'react';
 
 const ContactsPage: React.FC = () => {
 	return (
@@ -11,6 +12,7 @@ const ContactsPage: React.FC = () => {
 				Контакты
 			</Typography>
 			<CreateContactForm />
+			<ContactSearch />
 			<ContactsList />
 		</MainLayout>
 	);

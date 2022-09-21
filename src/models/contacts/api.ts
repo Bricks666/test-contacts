@@ -1,6 +1,11 @@
-import { API_BASE_URL } from '@/consts/api';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { Contact, CreateContactParams, EditContactParams } from './types';
+import { API_BASE_URL } from '@/consts/api';
+import {
+	Contact,
+	CreateContactParams,
+	EditContactParams,
+	GetContactsParams,
+} from './types';
 
 const ContactsTag = 'Contacts';
 
@@ -10,11 +15,13 @@ export const contactsApi = createApi({
 		baseUrl: `${API_BASE_URL}/contacts`,
 	}),
 	endpoints: (builder) => ({
-		getContacts: builder.query<Contact[], number>({
-			query: (userId) => ({
+		getContacts: builder.query<Contact[], GetContactsParams>({
+			query: ({ userId, type, value }) => ({
 				url: '/',
 				params: {
 					userId,
+					type_like: type,
+					value_like: value,
 				},
 			}),
 			providesTags: [ContactsTag],

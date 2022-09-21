@@ -1,11 +1,11 @@
 import * as React from 'react';
+import { TextField } from '@mui/material';
 import {
 	useController,
 	UseControllerProps,
 	FieldValues,
 } from 'react-hook-form';
 import { CommonProps } from '@/interfaces/common';
-import { TextField } from '@mui/material';
 
 export interface FieldProps<F extends FieldValues>
 	extends CommonProps,
@@ -20,8 +20,7 @@ export interface FieldProps<F extends FieldValues>
 export const Field = React.memo(function Field<F extends FieldValues>(
 	props: FieldProps<F>
 ) {
-	const { control, name, defaultValue, rules, shouldUnregister, ...rest } =
-		props;
+	const { control, name, defaultValue, rules, shouldUnregister, ...rest } = props;
 	const { field, fieldState } = useController({
 		control,
 		name,

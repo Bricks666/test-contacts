@@ -1,5 +1,5 @@
-import { ContactType } from '@/models/contacts';
 import { InputHTMLAttributes } from 'react';
+import { ContactType } from '@/models/contacts';
 
 export const CONTACT_NAMES: Record<ContactType, string> = {
 	phone: 'Телефон',

@@ -1,11 +1,11 @@
 import * as React from 'react';
-import { CommonProps } from '@/interfaces/common';
 import { TextField } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
+import { CommonProps } from '@/interfaces/common';
 import { StyledButton, StyledForm } from './styles';
 import useField from '@/hooks/useField';
 import { authThunk } from '@/models/auth';
 import useTypedDispatch from '@/hooks/useTypedDispatch';
-import { useNavigate } from 'react-router-dom';
 
 export interface LoginFormProps extends CommonProps {}
 

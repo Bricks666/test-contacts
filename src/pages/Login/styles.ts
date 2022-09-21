@@ -1,6 +1,6 @@
-import { Login } from '@/components/Login';
 import { Container } from '@mui/material';
 import { styled } from '@mui/material/styles';
+import { Login } from '@/components/Login';
 
 export const StyledContainer = styled(Container)`
 	display: grid;

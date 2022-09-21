@@ -1,8 +1,8 @@
 import * as React from 'react';
+import { Alert, AlertTitle } from '@mui/material';
 import { CommonProps } from '@/interfaces/common';
 import { StylesWrapper } from './styles';
 import { LoginForm } from '../LoginForm';
-import { Alert, AlertTitle } from '@mui/material';
 import useTypedSelector from '@/hooks/useTypedSelector';
 import { getAuthError } from '@/models/auth';
 

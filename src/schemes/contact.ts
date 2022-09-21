@@ -1,8 +1,8 @@
-import { CONTACT_TYPES } from '@/consts/contacts';
-import { EditContact } from '@/models/contacts';
 import Joi from 'joi';
+import { CONTACT_TYPES } from '@/consts/contacts';
+import { Contact } from '@/models/contacts';
 
-export const editContactFormSchema = Joi.object<EditContact>({
+export const contactScheme = Joi.object<Omit<Contact, 'userId' | 'id'>>({
 	type: Joi.string()
 		.valid(...CONTACT_TYPES)
 		.required(),

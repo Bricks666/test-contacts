@@ -14,8 +14,7 @@ const parsePopups = (rawPopups: string | null): string[] => {
 const usePopups = (): UsePopupsResult => {
 	const rawPopups = useGetParams(GET_PARAMS.popups);
 	const [mountedPopups, setMountedPopups] = useState(() =>
-		parsePopups(rawPopups)
-	);
+		parsePopups(rawPopups));
 	const timeoutIdRef = useRef<number>(0);
 
 	useEffect(() => {

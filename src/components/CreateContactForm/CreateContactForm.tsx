@@ -1,15 +1,12 @@
 import * as React from 'react';
-import { useForm, SubmitHandler } from 'react-hook-form';
+import { useForm, SubmitHandler, Control, FieldValues } from 'react-hook-form';
 import { Button, MenuItem } from '@mui/material';
 import { joiResolver } from '@hookform/resolvers/joi';
 import { CommonProps } from '@/interfaces/common';
 import useTypedSelector from '@/hooks/useTypedSelector';
 import { getAuthId } from '@/models/auth';
-import { StyledForm } from './styles';
-import {
-	CreateContact,
-	useCreateContactMutation,
-} from '@/models/contacts';
+import { StyledForm, StyledLegend } from './styles';
+import { CreateContact, useCreateContactMutation } from '@/models/contacts';
 import { Select } from '../Select';
 import {
 	CONTACT_NAMES,
@@ -17,7 +14,7 @@ import {
 	INPUT_CONTACT_TYPE,
 } from '@/consts/contacts';
 import { Field } from '../Field';
-import { createContactFormScheme } from './scheme';
+import { contactScheme } from '@/schemes/contact';
 
 export interface CreateContactFormProps extends CommonProps {}
 
@@ -27,14 +24,13 @@ export const CreateContactForm: React.FC<CreateContactFormProps> = React.memo(
 
 		const userId = useTypedSelector(getAuthId);
 		const [trigger] = useCreateContactMutation();
-		const { control, handleSubmit, watch, formState, reset } =
-			useForm<CreateContact>({
-				defaultValues: {
-					type: 'phone',
-					value: '',
-				},
-				resolver: joiResolver(createContactFormScheme),
-			});
+		const { control, handleSubmit, watch, formState, reset } = useForm<CreateContact>({
+			defaultValues: {
+				type: 'phone',
+				value: '',
+			},
+			resolver: joiResolver(contactScheme),
+		});
 
 		const currentType = watch('type');
 		const { isSubmitting, isDirty } = formState;
@@ -53,6 +49,7 @@ export const CreateContactForm: React.FC<CreateContactFormProps> = React.memo(
 
 		return (
 			<StyledForm className={className} onSubmit={handleSubmit(onSubmit)}>
+				<StyledLegend variant='h6'>Добавление контакта</StyledLegend>
 				<Select name='type' control={control} label='Тип контакта'>
 					{CONTACT_TYPES.map((type) => (
 						<MenuItem value={type} key={type}>
@@ -60,10 +57,12 @@ export const CreateContactForm: React.FC<CreateContactFormProps> = React.memo(
 						</MenuItem>
 					))}
 				</Select>
-
+				{/*
+          Без явного приведения сыпет ошибку типов резолверов
+        */}
 				<Field
 					name='value'
-					control={control}
+					control={control as unknown as Control<FieldValues>}
 					label='Значение контакта'
 					type={INPUT_CONTACT_TYPE[currentType] || 'text'}
 				/>

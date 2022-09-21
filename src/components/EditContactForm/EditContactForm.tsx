@@ -1,22 +1,22 @@
 import * as React from 'react';
+import { MenuItem } from '@mui/material';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';
-import { CommonProps } from '@/interfaces/common';
+import { CommonProps, VoidFunction } from '@/interfaces/common';
 import {
 	EditContact,
 	EditContactParams,
 	useEditContactMutation,
 } from '@/models/contacts';
-import { MenuItem } from '@mui/material';
 import {
 	CONTACT_NAMES,
 	CONTACT_TYPES,
 	INPUT_CONTACT_TYPE,
 } from '@/consts/contacts';
 import { StyledButton, StyledForm } from './styles';
-import { editContactFormSchema } from './sheme';
 import { Field } from '../Field';
 import { Select } from '../Select';
+import { contactScheme } from '@/schemes/contact';
 
 export interface EditContactFormProps
 	extends CommonProps,
@@ -29,23 +29,23 @@ export const EditContactForm: React.FC<EditContactFormProps> = React.memo(
 		const { className, id, type, value, afterSubmit } = props;
 
 		const [trigger] = useEditContactMutation();
-		const { handleSubmit, watch, control, formState } =
-			useForm<EditContact>({
-				defaultValues: {
-					type,
-					value,
-				},
-				resolver: joiResolver(editContactFormSchema),
-			});
+		const { handleSubmit, watch, control, formState } = useForm<EditContact>({
+			defaultValues: {
+				type,
+				value,
+			},
+			resolver: joiResolver(contactScheme),
+		});
 
 		const onSubmit = React.useCallback<SubmitHandler<EditContact>>(
-			async ({ type, value }) => {
+			async (data) => {
 				await trigger({
 					id,
-					type,
-					value,
+					...data,
 				});
-				afterSubmit && afterSubmit();
+				if (afterSubmit) {
+					afterSubmit();
+				}
 			},
 			[trigger, afterSubmit, id]
 		);
@@ -57,9 +57,9 @@ export const EditContactForm: React.FC<EditContactFormProps> = React.memo(
 		return (
 			<StyledForm className={className} onSubmit={handleSubmit(onSubmit)}>
 				<Select name='type' control={control} label='Тип контакта'>
-					{CONTACT_TYPES.map((type) => (
-						<MenuItem value={type} key={type}>
-							{CONTACT_NAMES[type]}
+					{CONTACT_TYPES.map((contactType) => (
+						<MenuItem value={contactType} key={contactType}>
+							{CONTACT_NAMES[contactType]}
 						</MenuItem>
 					))}
 				</Select>

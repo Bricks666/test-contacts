@@ -21,6 +21,11 @@
 	"devDependencies": {
 		"@types/react": "^18.0.20",
 		"@types/react-dom": "^18.0.6",
+		"@typescript-eslint/eslint-plugin": "^5.38.0",
+		"eslint": "^8.23.1",
+		"eslint-config-airbnb": "^19.0.4",
+		"eslint-plugin-import": "^2.26.0",
+		"eslint-plugin-jsx-a11y": "^6.6.1",
 		"generate-react-cli": "^7.3.0",
 		"react-app-rewired": "^2.2.1",
 		"react-scripts": "5.0.1",
@@ -34,7 +39,9 @@
 		"build": "react-app-rewired build",
 		"gen:component": "generate-react component",
 		"gen:page": "generate-react component --type=page",
-		"gen:model": "generate-react component --type=model"
+		"gen:model": "generate-react component --type=model",
+		"lint": "eslint --ext .tsx,.ts src",
+		"lint:fix": "npm run lint --fix"
 	},
 	"eslintConfig": {
 		"extends": [

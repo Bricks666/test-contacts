@@ -1,9 +1,9 @@
 import * as React from 'react';
+import { Outlet } from 'react-router-dom';
 import usePopups from './hooks/usePopups';
 import { popupsMap } from './data';
-import { Outlet } from 'react-router-dom';
 
-export const Popups: React.FC = (props) => {
+export const Popups: React.FC = () => {
 	const { mountedPopups, popups } = usePopups();
 	return (
 		<React.Fragment key='unique'>

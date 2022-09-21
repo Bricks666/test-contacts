@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { CommonPopupProps, CommonProps } from '@/interfaces/common';
 import { Dialog, DialogContent, DialogTitle } from '@mui/material';
+import { CommonPopupProps, CommonProps } from '@/interfaces/common';
 
 export interface MainPopupProps extends CommonProps, CommonPopupProps {
 	readonly title: string;

@@ -7,3 +7,5 @@ export type AnyFunction = (...args: unknown[]) => unknown;
 export interface CommonPopupProps {
 	readonly isOpen: boolean;
 }
+
+export type VoidFunction = () => void;

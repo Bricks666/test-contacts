@@ -1,5 +1,6 @@
-import { SelectChangeEvent } from '@mui/material';
 import { ChangeEvent, useCallback, useState } from 'react';
+import { SelectChangeEvent } from '@mui/material';
+import { VoidFunction } from '@/interfaces/common';
 
 interface UseFieldResult<
 	T extends string,
@@ -15,9 +16,7 @@ const useField = <
 	Event extends
 		| ChangeEvent<HTMLInputElement>
 		| SelectChangeEvent<T> = ChangeEvent<HTMLInputElement>
->(
-	defaultValue: T
-): UseFieldResult<T, Event> => {
+>(defaultValue: T): UseFieldResult<T, Event> => {
 	const [value, setValue] = useState<T>(defaultValue);
 
 	const onChange = useCallback((evt: Event) => {

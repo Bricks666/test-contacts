@@ -15,8 +15,7 @@ export const EditContactPopup: React.FC<EditContactPopupProps> = React.memo(
 		const navigate = useNavigate();
 		const contactId = +useGetParams(GET_PARAMS.contactId)!;
 		const onClose = React.useCallback(() => navigate(-1), [navigate]);
-		const { data, isLoading, isFetching, isError } =
-			useGetContactQuery(contactId);
+		const { data, isLoading, isFetching, isError } = useGetContactQuery(contactId);
 
 		const showLoading = isLoading || isFetching || isError;
 
