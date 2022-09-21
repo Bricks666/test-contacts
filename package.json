@@ -5,18 +5,27 @@
 	"dependencies": {
 		"@emotion/react": "^11.10.4",
 		"@emotion/styled": "^11.10.4",
+		"@hookform/resolvers": "^2.9.8",
+		"@mui/icons-material": "^5.10.6",
 		"@mui/material": "^5.10.6",
 		"@reduxjs/toolkit": "^1.8.5",
 		"classnames": "^2.3.2",
+		"joi": "^17.6.0",
 		"json-server": "^0.17.0",
 		"react": "^18.2.0",
 		"react-dom": "^18.2.0",
+		"react-hook-form": "^7.36.0",
 		"react-redux": "^8.0.2",
 		"react-router-dom": "^6.4.0"
 	},
 	"devDependencies": {
 		"@types/react": "^18.0.20",
 		"@types/react-dom": "^18.0.6",
+		"@typescript-eslint/eslint-plugin": "^5.38.0",
+		"eslint": "^8.23.1",
+		"eslint-config-airbnb": "^19.0.4",
+		"eslint-plugin-import": "^2.26.0",
+		"eslint-plugin-jsx-a11y": "^6.6.1",
 		"generate-react-cli": "^7.3.0",
 		"react-app-rewired": "^2.2.1",
 		"react-scripts": "5.0.1",
@@ -30,7 +39,9 @@
 		"build": "react-app-rewired build",
 		"gen:component": "generate-react component",
 		"gen:page": "generate-react component --type=page",
-		"gen:model": "generate-react component --type=model"
+		"gen:model": "generate-react component --type=model",
+		"lint": "eslint --ext .tsx,.ts src",
+		"lint:fix": "npm run lint --fix"
 	},
 	"eslintConfig": {
 		"extends": [

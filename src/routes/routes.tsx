@@ -1,19 +1,25 @@
-import { ComponentType, lazy } from 'react';
+import * as React from 'react';
 import { Navigate } from 'react-router-dom';
 
 interface Route {
 	readonly path: string;
-	readonly Component: ComponentType;
+	readonly Component: React.ComponentType;
 	readonly isOnlyAuth: boolean;
 }
 
-const LoginPage = lazy(() => import('../pages/Login'));
+const LoginPage = React.lazy(() => import('../pages/Login'));
+const ContactsPage = React.lazy(() => import('../pages/Contacts'));
 
 export const routes: Route[] = [
 	{
-		path: '/login',
+		path: 'login',
 		Component: LoginPage,
 		isOnlyAuth: false,
+	},
+	{
+		path: 'contacts',
+		Component: ContactsPage,
+		isOnlyAuth: true,
 	},
 	{
 		path: '*',

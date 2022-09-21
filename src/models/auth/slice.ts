@@ -1,5 +1,5 @@
-import { authApi } from '@/api/auth';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { authApi } from '@/api/auth';
 import { AppState } from '..';
 import { AuthState, AuthThunkParams, SafetyUser } from './types';
 
@@ -56,3 +56,7 @@ export const getIsAuthorizing = (state: AppState) =>
 	getAuthState(state).isAuthorizing;
 
 export const getAuthError = (state: AppState) => getAuthState(state).error;
+
+export const getAuthId = (state: AppState) => getAuthState(state).id;
+
+export const getIsAuth = (state: AppState) => getAuthState(state).isAuth;
