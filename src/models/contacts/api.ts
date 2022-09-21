@@ -16,12 +16,11 @@ export const contactsApi = createApi({
 	}),
 	endpoints: (builder) => ({
 		getContacts: builder.query<Contact[], GetContactsParams>({
-			query: ({ userId, type, value }) => ({
+			query: ({ userId, search }) => ({
 				url: '/',
 				params: {
 					userId,
-					type_like: type,
-					value_like: value,
+					q: search,
 				},
 			}),
 			providesTags: [ContactsTag],

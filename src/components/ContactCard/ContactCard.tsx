@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import {
 	IconButton,
 	ListItem,
@@ -15,27 +15,34 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { CommonProps } from '@/interfaces/common';
 import { Contact, useDeleteContactMutation } from '@/models/contacts';
-import { CONTACT_NAMES } from '@/consts/contacts';
 import useToggle from '@/hooks/useToogle';
 import { MenuOption } from './types';
 import { GET_PARAMS } from '@/consts/getParams';
 import { POPUPS } from '@/consts/popups';
+import prepareLink from '@/utils/prepareLink';
 
 export interface ContactCardProps extends CommonProps, Contact {}
 
 export const ContactCard: React.FC<ContactCardProps> = React.memo(
 	function ContactCard(props) {
-		const { className, id, type, value } = props;
+		const { className, id, name, value: contactValue } = props;
 
 		const ref = React.useRef<HTMLButtonElement | null>(null);
 		const [trigger] = useDeleteContactMutation();
 		const [openMenu, toggleOpenMenu] = useToggle(false);
+		const location = useLocation();
 
 		const contactActions = React.useMemo<MenuOption[]>(
 			() => [
 				{
 					label: 'Изменить',
-					href: `?${GET_PARAMS.popups}=${POPUPS.editContact}&${GET_PARAMS.contactId}=${id}`,
+					href: prepareLink(location, {
+						query: {
+							[GET_PARAMS.popups]: POPUPS.editContact,
+							[GET_PARAMS.contactId]: id.toString(),
+						},
+						keepOldQuery: true,
+					}),
 					Icon: EditIcon,
 				},
 				{
@@ -44,13 +51,13 @@ export const ContactCard: React.FC<ContactCardProps> = React.memo(
 					Icon: DeleteIcon,
 				},
 			],
-			[id, trigger]
+			[id, trigger, location.pathname, location.search, location.hash]
 		);
 
 		return (
 			<ListItem className={className}>
-				<ListSubheader component='span'>{CONTACT_NAMES[type]}</ListSubheader>
-				<ListItemText>{value}</ListItemText>
+				<ListSubheader component='span'>{name}</ListSubheader>
+				<ListItemText>{contactValue}</ListItemText>
 				<ListItemSecondaryAction>
 					<IconButton onClick={toggleOpenMenu} ref={ref}>
 						<ListIcon />

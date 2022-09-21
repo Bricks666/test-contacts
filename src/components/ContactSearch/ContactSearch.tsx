@@ -1,15 +1,13 @@
 import * as React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { SubmitHandler, useForm } from 'react-hook-form';
-import { Button, MenuItem } from '@mui/material';
+import { Control, SubmitHandler, useForm } from 'react-hook-form';
+import { Button } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import { joiResolver } from '@hookform/resolvers/joi';
 import { CommonProps } from '@/interfaces/common';
 import { StyledForm } from './styles';
-import { Select } from '../Select';
 import { Field } from '../Field';
 import { SearchContact } from './types';
-import { SEARCH_CONTACT_NAMES, SEARCH_CONTACT_TYPES } from './data';
 import { searchContactScheme } from './scheme';
 import prepareLink from '@/utils/prepareLink';
 import { GET_PARAMS } from '@/consts/getParams';
@@ -21,8 +19,7 @@ export const ContactSearch: React.FC<ContactSearchProps> = React.memo(
 		const { className } = props;
 		const { control, handleSubmit } = useForm<SearchContact>({
 			defaultValues: {
-				type: '',
-				value: '',
+				search: '',
 			},
 			resolver: joiResolver(searchContactScheme),
 		});
@@ -30,12 +27,11 @@ export const ContactSearch: React.FC<ContactSearchProps> = React.memo(
 		const location = useLocation();
 
 		const onSubmit = React.useCallback<SubmitHandler<SearchContact>>(
-			({ type, value }) => {
+			({ search }) => {
 				navigate(
 					prepareLink(location, {
 						query: {
-							[GET_PARAMS.contactType]: type,
-							[GET_PARAMS.contactValue]: value,
+							[GET_PARAMS.search]: search,
 						},
 					})
 				);
@@ -45,14 +41,11 @@ export const ContactSearch: React.FC<ContactSearchProps> = React.memo(
 
 		return (
 			<StyledForm className={className} onSubmit={handleSubmit(onSubmit)}>
-				<Select name='type' control={control} label='Тип контакта'>
-					{SEARCH_CONTACT_TYPES.map((type) => (
-						<MenuItem value={type} key={type}>
-							{SEARCH_CONTACT_NAMES[type]}
-						</MenuItem>
-					))}
-				</Select>
-				<Field name='value' control={control} label='Контакт' />
+				<Field
+					name='search'
+					control={control as unknown as Control}
+					label='Имя или значение контакта'
+				/>
 				<Button type='submit' variant='outlined' endIcon={<SearchIcon />}>
 					Искать
 				</Button>

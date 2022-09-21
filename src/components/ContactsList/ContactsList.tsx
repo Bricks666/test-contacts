@@ -4,7 +4,7 @@ import { CommonProps } from '@/interfaces/common';
 import { StyledProgress } from './styles';
 import useTypedSelector from '@/hooks/useTypedSelector';
 import { getAuthId } from '@/models/auth';
-import { ContactType, useGetContactsQuery } from '@/models/contacts';
+import { useGetContactsQuery } from '@/models/contacts';
 import { ContactCard } from '../ContactCard';
 import useGetParams from '@/hooks/useGetParams';
 import { GET_PARAMS } from '@/consts/getParams';
@@ -15,8 +15,7 @@ export const ContactsList: React.FC<ContactsListProps> = React.memo(
 	function ContactsList(props) {
 		const { className } = props;
 		const userId = useTypedSelector(getAuthId);
-		const type = useGetParams<ContactType>(GET_PARAMS.contactType) || undefined;
-		const value = useGetParams(GET_PARAMS.contactValue) || undefined;
+		const search = useGetParams(GET_PARAMS.search) || undefined;
 		const {
 			data = [],
 			isLoading,
@@ -24,8 +23,7 @@ export const ContactsList: React.FC<ContactsListProps> = React.memo(
 			isError,
 		} = useGetContactsQuery({
 			userId,
-			type,
-			value,
+			search,
 		});
 
 		const showLoading = isLoading || isFetching;
