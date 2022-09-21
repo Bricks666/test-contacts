@@ -28,9 +28,10 @@
   ],
   "contacts": [
     {
-      "type": "site",
-      "value": "http://localhost:3001",
-      "id": 2
+      "userId": 1,
+      "type": "phone",
+      "value": "+79533396737",
+      "id": 3
     }
   ]
 }

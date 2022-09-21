@@ -1,6 +1,6 @@
 import { API_BASE_URL } from '@/consts/api';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { Contact, CreateContact, EditContact } from './types';
+import { Contact, CreateContactParams, EditContactParams } from './types';
 
 const ContactsTag = 'Contacts';
 
@@ -32,16 +32,16 @@ export const contactsApi = createApi({
 			}),
 			invalidatesTags: [ContactsTag],
 		}),
-		editContact: builder.mutation<unknown, EditContact>({
+		editContact: builder.mutation<unknown, EditContactParams>({
 			query: ({ id, ...data }) => ({
 				url: `/${id}`,
-				method: 'PUT',
+				method: 'PATCH',
 				body: data,
 			}),
 			invalidatesTags: [ContactsTag],
 		}),
 
-		createContact: builder.mutation<unknown, CreateContact>({
+		createContact: builder.mutation<unknown, CreateContactParams>({
 			query: (data) => ({
 				url: '/',
 				method: 'POST',

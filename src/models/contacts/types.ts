@@ -7,9 +7,10 @@ export interface Contact {
 	readonly value: string;
 }
 
-export interface CreateContact extends Omit<Contact, 'id'> {}
+export interface CreateContact extends Omit<Contact, 'id' | 'userId'> {}
+export interface CreateContactParams
+	extends CreateContact,
+		Pick<Contact, 'userId'> {}
 
-export interface EditableContact
-	extends Omit<Partial<Contact>, 'id' | 'userId'> {}
-
-export interface EditContact extends EditableContact, Pick<Contact, 'id'> {}
+export interface EditContact extends Omit<Partial<Contact>, 'id' | 'userId'> {}
+export interface EditContactParams extends EditContact, Pick<Contact, 'id'> {}

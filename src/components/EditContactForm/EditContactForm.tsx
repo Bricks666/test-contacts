@@ -3,8 +3,8 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';
 import { CommonProps } from '@/interfaces/common';
 import {
-	EditableContact,
 	EditContact,
+	EditContactParams,
 	useEditContactMutation,
 } from '@/models/contacts';
 import { MenuItem } from '@mui/material';
@@ -20,7 +20,7 @@ import { Select } from '../Select';
 
 export interface EditContactFormProps
 	extends CommonProps,
-		Required<EditContact> {
+		Required<EditContactParams> {
 	readonly afterSubmit?: VoidFunction;
 }
 
@@ -30,7 +30,7 @@ export const EditContactForm: React.FC<EditContactFormProps> = React.memo(
 
 		const [trigger] = useEditContactMutation();
 		const { handleSubmit, watch, control, formState } =
-			useForm<EditableContact>({
+			useForm<EditContact>({
 				defaultValues: {
 					type,
 					value,
@@ -38,7 +38,7 @@ export const EditContactForm: React.FC<EditContactFormProps> = React.memo(
 				resolver: joiResolver(editContactFormSchema),
 			});
 
-		const onSubmit = React.useCallback<SubmitHandler<EditableContact>>(
+		const onSubmit = React.useCallback<SubmitHandler<EditContact>>(
 			async ({ type, value }) => {
 				await trigger({
 					id,
@@ -58,7 +58,7 @@ export const EditContactForm: React.FC<EditContactFormProps> = React.memo(
 			<StyledForm className={className} onSubmit={handleSubmit(onSubmit)}>
 				<Select name='type' control={control} label='Тип контакта'>
 					{CONTACT_TYPES.map((type) => (
-						<MenuItem value={type} key={value}>
+						<MenuItem value={type} key={type}>
 							{CONTACT_NAMES[type]}
 						</MenuItem>
 					))}
