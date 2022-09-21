@@ -18,7 +18,3 @@ export interface User {
 }
 
 export interface SafetyUser extends Omit<User, 'password'> {}
-
-export interface AuthThunkError {
-	readonly error: string;
-}

@@ -1,11 +1,13 @@
 import * as React from 'react';
-import { TextField } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { joiResolver } from '@hookform/resolvers/joi';
 import { CommonProps } from '@/interfaces/common';
 import { StyledButton, StyledForm } from './styles';
-import useField from '@/hooks/useField';
-import { authThunk } from '@/models/auth';
+import { authThunk, AuthThunkParams } from '@/models/auth';
 import useTypedDispatch from '@/hooks/useTypedDispatch';
+import { loginScheme } from './scheme';
+import { Field } from '../Field';
 
 export interface LoginFormProps extends CommonProps {}
 
@@ -16,35 +18,39 @@ export const LoginForm: React.FC<LoginFormProps> = React.memo(
 		const dispatch = useTypedDispatch();
 		const navigate = useNavigate();
 
-		const { reset: resetLogin, ...login } = useField('');
-		const { reset: resetPassword, ...password } = useField('');
+		const { reset, control, formState, handleSubmit } =
+			useForm<AuthThunkParams>({
+				defaultValues: {
+					login: '',
+					password: '',
+				},
+				resolver: joiResolver(loginScheme),
+			});
 
-		const onSubmit = React.useCallback<React.FormEventHandler>(
-			async (evt) => {
-				evt.preventDefault();
-				const { payload } = await dispatch(
-					authThunk({ login: login.value, password: password.value })
-				);
+		const onSubmit = React.useCallback<SubmitHandler<AuthThunkParams>>(
+			async (data) => {
+				const { payload } = await dispatch(authThunk(data));
 
 				if (payload) {
 					navigate('/contacts');
 				} else {
-					resetLogin();
-					resetPassword();
+					reset();
 				}
 			},
-			[login.value, password.value]
+			[reset]
 		);
 
-		const disableButton = !password.value || !login.value;
+		const { isDirty, isSubmitting } = formState;
+		const disableButton = !isDirty || isSubmitting;
+
 		return (
-			<StyledForm onSubmit={onSubmit} className={className}>
-				<TextField label='Логин' variant='outlined' {...login} />
-				<TextField
-					label='Пароль'
-					variant='outlined'
+			<StyledForm onSubmit={handleSubmit(onSubmit)} className={className}>
+				<Field name='login' control={control} label='Логин' />
+				<Field
+					name='password'
+					control={control}
 					type='password'
-					{...password}
+					label='Пароль'
 				/>
 				<StyledButton variant='outlined' type='submit' disabled={disableButton}>
 					Войти
