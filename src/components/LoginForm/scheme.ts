@@ -1,7 +1,7 @@
 import Joi from 'joi';
-import { AuthThunkParams } from '@/models/auth';
+import { LoginThunkParams } from '@/models/auth';
 
-export const loginScheme = Joi.object<AuthThunkParams>({
+export const loginScheme = Joi.object<LoginThunkParams>({
 	login: Joi.string().min(6).required().messages({
 		'string.empty': 'Логин должен быть введен',
 		'string.min': 'Логин должен содержать не менее 5ти символов',
@@ -11,4 +11,5 @@ export const loginScheme = Joi.object<AuthThunkParams>({
 		'string.empty': 'Пароль должен быть введен',
 		'string.min': 'Пароль должен содержать не менее 5ти символов',
 	}),
+	rememberMe: Joi.boolean(),
 });

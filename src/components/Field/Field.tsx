@@ -17,7 +17,9 @@ export interface FieldProps<F extends FieldValues>
 	readonly label?: string;
 }
 
-export const Field = <F extends FieldValues>(props: FieldProps<F>) => {
+export const Field = React.memo(function Field<F extends FieldValues>(
+	props: FieldProps<F>
+) {
 	const { control, name, defaultValue, rules, shouldUnregister, ...rest } = props;
 	const { field, fieldState } = useController({
 		control,
@@ -38,4 +40,4 @@ export const Field = <F extends FieldValues>(props: FieldProps<F>) => {
 			variant='outlined'
 		/>
 	);
-};
+});

@@ -6,9 +6,10 @@ export interface AuthState {
 	readonly error: null | string;
 }
 
-export interface AuthThunkParams {
+export interface LoginThunkParams {
 	readonly login: string;
 	readonly password: string;
+  readonly rememberMe: boolean
 }
 
 export interface User {

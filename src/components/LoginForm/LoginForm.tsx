@@ -1,13 +1,13 @@
 import * as React from 'react';
-import { useNavigate } from 'react-router-dom';
-import { SubmitHandler, useForm } from 'react-hook-form';
+import { Control, SubmitHandler, useForm } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';
+import { Button } from '@mui/material';
 import { CommonProps } from '@/interfaces/common';
-import { StyledButton, StyledForm } from './styles';
-import { authThunk, AuthThunkParams } from '@/models/auth';
+import { StyledField, StyledForm } from './styles';
+import { loginThunk, LoginThunkParams } from '@/models/auth';
 import useTypedDispatch from '@/hooks/useTypedDispatch';
 import { loginScheme } from './scheme';
-import { Field } from '../Field';
+import { Checkbox } from '../Checkbox';
 
 export interface LoginFormProps extends CommonProps {}
 
@@ -16,26 +16,20 @@ export const LoginForm: React.FC<LoginFormProps> = React.memo(
 		const { className } = props;
 
 		const dispatch = useTypedDispatch();
-		const navigate = useNavigate();
 
-		const { reset, control, formState, handleSubmit } =
-			useForm<AuthThunkParams>({
-				defaultValues: {
-					login: '',
-					password: '',
-				},
-				resolver: joiResolver(loginScheme),
-			});
+		const { reset, control, formState, handleSubmit } = useForm<LoginThunkParams>({
+			defaultValues: {
+				login: '',
+				password: '',
+				rememberMe: false,
+			},
+			resolver: joiResolver(loginScheme),
+		});
 
-		const onSubmit = React.useCallback<SubmitHandler<AuthThunkParams>>(
+		const onSubmit = React.useCallback<SubmitHandler<LoginThunkParams>>(
 			async (data) => {
-				const { payload } = await dispatch(authThunk(data));
-
-				if (payload) {
-					navigate('/contacts');
-				} else {
-					reset();
-				}
+				await dispatch(loginThunk(data));
+				reset();
 			},
 			[reset]
 		);
@@ -45,16 +39,25 @@ export const LoginForm: React.FC<LoginFormProps> = React.memo(
 
 		return (
 			<StyledForm onSubmit={handleSubmit(onSubmit)} className={className}>
-				<Field name='login' control={control} label='Логин' />
-				<Field
+				<StyledField
+					name='login'
+					control={control as unknown as Control}
+					label='Логин'
+				/>
+				<StyledField
 					name='password'
-					control={control}
+					control={control as unknown as Control}
 					type='password'
 					label='Пароль'
 				/>
-				<StyledButton variant='outlined' type='submit' disabled={disableButton}>
+				<Checkbox
+					name='rememberMe'
+					control={control as unknown as Control}
+					label='Запомнить меня'
+				/>
+				<Button variant='outlined' type='submit' disabled={disableButton}>
 					Войти
-				</StyledButton>
+				</Button>
 			</StyledForm>
 		);
 	}
