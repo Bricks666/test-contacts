@@ -41,23 +41,24 @@ export const loginThunk = createAsyncThunk<
 	SafetyUser | undefined,
 	LoginThunkParams
 >('user/login', async ({ login, password, rememberMe }, { dispatch }) => {
-	dispatch(setAuthorizing(true));
-	const user = await authApi(login, password);
-	if (user) {
-		const safetyUser: SafetyUser = {
-			id: user.id,
-			login: user.login,
-		};
-		if (rememberMe) {
-			setItem(REMEMBER_USER_KEY, safetyUser);
+	try {
+		const user = await authApi(login, password);
+		if (user) {
+			const safetyUser: SafetyUser = {
+				id: user.id,
+				login: user.login,
+			};
+			if (rememberMe) {
+				setItem(REMEMBER_USER_KEY, safetyUser);
+			}
+			dispatch(setUserInfo(safetyUser));
+
+			return safetyUser;
 		}
-		dispatch(setAuthorizing(false));
-		dispatch(setUserInfo(safetyUser));
-
-		return safetyUser;
+		throw new Error();
+	} catch {
+		dispatch(setError('Пользователя с такими данными не существует'));
 	}
-
-	dispatch(setError('Пользователя с такими данными не существует'));
 });
 
 export const authThunk = createAsyncThunk<SafetyUser | undefined, never>(

@@ -11,7 +11,7 @@ export const store = configureStore({
 	middleware(getDefaultMiddleware) {
 		return getDefaultMiddleware().concat(contactsApi.middleware);
 	},
-	devTools: process.env.NODE_ENV !== 'production',
+	devTools: true,
 });
 
 setupListeners(store.dispatch);
