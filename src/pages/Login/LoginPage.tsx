@@ -12,6 +12,7 @@ const LoginPage: React.FC = () => {
 	React.useLayoutEffect(() => {
 		if (isAuth) {
 			navigate('/contacts');
+			console.log('navigate');
 		}
 	}, [isAuth]);
 	return (
