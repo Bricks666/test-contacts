@@ -9,7 +9,7 @@ const LoginPage: React.FC = () => {
 	const isAuth = useTypedSelector(getIsAuth);
 	const navigate = useNavigate();
 
-	React.useLayoutEffect(() => {
+	React.useEffect(() => {
 		if (isAuth) {
 			navigate('/contacts');
 			console.log('navigate');
